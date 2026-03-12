@@ -1,0 +1,197 @@
+/* Variables & Design System */
+:root {
+    /* Colors - Dark Modern Gaming Theme */
+    --bg-base: #0a0a0f;
+    --bg-surface: #14141f;
+    --bg-surface-elevated: #1e1e2d;
+    
+    /* Neons & Accents */
+    --accent-primary: #00f0ff; /* Cyan */
+    --accent-secondary: #7000ff; /* Purple */
+    --accent-danger: #ff2a2a; /* Red/Alerts */
+    --accent-success: #00ff88; /* Green */
+    --accent-warning: #ffb800; /* Yellow/Orange */
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0b0;
+    --text-muted: #5a5a6a;
+    
+    /* Typography */
+    --font-sans: 'Inter', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+    
+    /* Shadows & Effects */
+    --shadow-glow-primary: 0 0 15px rgba(0, 240, 255, 0.3);
+    --shadow-glow-danger: 0 0 15px rgba(255, 42, 42, 0.3);
+    --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.5);
+    
+    /* Borders */
+    --border-subtle: 1px solid rgba(255, 255, 255, 0.05);
+    --border-accent: 1px solid rgba(0, 240, 255, 0.2);
+    
+    /* Radii */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    
+    /* Layout */
+    --max-width: 1200px;
+}
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.main-container {
+    flex: 1;
+    padding: 40px 20px;
+}
+
+/* Navigation */
+.navbar {
+    background-color: var(--bg-surface);
+    border-bottom: var(--border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(20, 20, 31, 0.8);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    color: var(--accent-primary);
+    font-size: 1.8rem;
+    filter: drop-shadow(var(--shadow-glow-primary));
+}
+
+.highlight {
+    color: var(--accent-primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    font-weight: 500;
+    color: var(--text-secondary);
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-links a.active {
+    color: var(--text-primary);
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent-primary);
+    border-radius: 3px;
+    box-shadow: var(--shadow-glow-primary);
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-surface);
+    padding: 30px 0;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: var(--border-subtle);
+}
+
+/* Utility Classes */
+.glass-panel {
+    background: rgba(30, 30, 45, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-panel);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease forwards;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-content {
+        flex-direction: column;
+        justify-content: center;
+        gap: 15px;
+        height: auto;
+        padding: 15px 0;
+    }
+}
