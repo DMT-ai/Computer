@@ -240,9 +240,9 @@ export class BuilderView {
     }
 
     openSelectionModal(slotId) {
-        const modal = document.getElementById('selection-modal');
-        const grid = document.getElementById('modal-grid');
-        const title = document.getElementById('modal-title');
+        const modal = this.container.querySelector('#selection-modal');
+        const grid = this.container.querySelector('#modal-grid');
+        const title = this.container.querySelector('#modal-title');
         
         const slotInfo = this.slots.find(s => s.id === slotId);
         title.innerHTML = `Chọn ${slotInfo.label}`;
@@ -300,10 +300,10 @@ export class BuilderView {
         });
 
         // Close modal
-        const closeModal = document.getElementById('close-modal');
+        const closeModal = this.container.querySelector('#close-modal');
         if (closeModal) {
             closeModal.addEventListener('click', () => {
-                document.getElementById('selection-modal').style.display = 'none';
+                this.container.querySelector('#selection-modal').style.display = 'none';
             });
         }
     }

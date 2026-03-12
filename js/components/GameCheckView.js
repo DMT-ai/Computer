@@ -35,7 +35,7 @@ export class GameCheckView {
     }
 
     renderGames(games) {
-        const grid = document.getElementById('games-grid');
+        const grid = this.container.querySelector('#games-grid');
         
         grid.innerHTML = games.map(game => `
             <div class="game-card glass-panel" data-id="${game.id}">
@@ -48,7 +48,7 @@ export class GameCheckView {
 
     checkGameCompatibility(gameId) {
         const game = dataStore.getGames().find(g => g.id === gameId);
-        const resultPanel = document.getElementById('game-result-panel');
+        const resultPanel = this.container.querySelector('#game-result-panel');
         
         // Lấy cấu hình hiện tại từ Builder
         const currentCpu = this.builderView.selectedParts.cpus;
@@ -147,12 +147,12 @@ export class GameCheckView {
         resultPanel.style.display = 'block';
         
         // Scroll to result
-        resultPanel.scrollIntoView({ behavior: 'smooth' });
+        resultPanel.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
 
     attachEventListeners() {
         // Search
-        const searchInput = document.getElementById('game-search');
+        const searchInput = this.container.querySelector('#game-search');
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();

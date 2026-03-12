@@ -44,7 +44,7 @@ export class MarketView {
     }
 
     renderProducts() {
-        const grid = document.getElementById('product-grid');
+        const grid = this.container.querySelector('#product-grid');
         let products = dataStore.getAll(this.activeCategory);
 
         // Sort lowest to highest price as requested
