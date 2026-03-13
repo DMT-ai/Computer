@@ -1,4 +1,5 @@
 import { MOCK_DB } from './mockDb.js';
+export { formatVND } from './mockDb.js';
 
 // Khóa lưu cục bộ
 const DB_STORAGE_KEY = 'nextgen_pc_db';

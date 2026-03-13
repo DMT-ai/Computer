@@ -13,6 +13,7 @@ function initApp() {
     
     // Instantiate builder view once so state is retained across tab switches
     const builderContainer = document.createElement('div');
+    builderContainer.className = 'fade-in';
     const builderViewInst = new BuilderView(builderContainer);
 
     // Setup Navigation Routing
@@ -39,21 +40,21 @@ function renderView(viewName, builderViewInst) {
     const root = document.getElementById('app-root');
     root.innerHTML = ''; // Clear current
     
+    if (viewName === 'builder') {
+        root.appendChild(builderViewInst.container);
+        builderViewInst.render();
+        return;
+    }
+    
     const viewContainer = document.createElement('div');
     viewContainer.className = 'fade-in';
     
     switch(viewName) {
         case 'market':
-            viewContainer.innerHTML = '';
             const marketView = new MarketView(viewContainer);
             marketView.render();
             break;
-        case 'builder':
-            viewContainer.innerHTML = '';
-            builderViewInst.render();
-            break;
         case 'game-check':
-            viewContainer.innerHTML = '';
             const gameCheckView = new GameCheckView(viewContainer, builderViewInst);
             gameCheckView.render();
             break;
