@@ -94,7 +94,10 @@ export class BuilderView {
                     <div class="slot-icon"><i class="fa-solid ${slot.icon}"></i></div>
                     <div class="slot-details">
                         <div class="slot-label">${slot.label}</div>
-                        <div class="part-name">${item.name}</div>
+                        <div class="part-name">
+                            ${item.name}
+                            ${item.brand ? `<span class="tag" style="font-size: 0.65rem; padding: 2px 5px; margin-left: 5px; background: rgba(0, 240, 255, 0.15); color: var(--accent-primary);">${item.brand}</span>` : ''}
+                        </div>
                         <div class="part-price">${formatVND(item.currentPrice)}</div>
                     </div>
                     <div class="slot-actions">
@@ -249,13 +252,28 @@ export class BuilderView {
         
         const products = dataStore.getAll(slotId);
         
-        grid.innerHTML = products.map(prod => `
-            <div class="modal-card glass-panel" data-id="${prod.id}" data-slot="${slotId}">
-                <h4>${prod.name}</h4>
-                <div class="price highlight">${formatVND(prod.currentPrice)}</div>
+        grid.innerHTML = products.map(prod => {
+            let specsHtml = '';
+            if (prod.specs && prod.specs.length > 0) {
+                specsHtml = `
+                    <ul style="padding-left: 15px; font-size: 0.85rem; color: #a0a0b0; margin-bottom: 10px; margin-top: 10px;">
+                        ${prod.specs.map(s => `<li>${s}</li>`).join('')}
+                    </ul>
+                `;
+            }
+
+            return `
+            <div class="modal-card glass-panel" data-id="${prod.id}" data-slot="${slotId}" style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h4 style="margin-bottom: 5px;">${prod.name}</h4>
+                    ${prod.brand ? `<span class="tag brand-tag" style="background: rgba(0, 240, 255, 0.2); color: var(--accent-primary); font-size: 0.7rem; padding: 2px 6px; margin-bottom: 10px; display: inline-block;"><i class="fa-solid fa-tag"></i> Hãng: ${prod.brand}</span>` : ''}
+                    <div class="price highlight">${formatVND(prod.currentPrice)}</div>
+                    ${specsHtml}
+                </div>
                 <button class="btn btn-small btn-outline mt-2 w-100 btn-select-item">Chọn</button>
             </div>
-        `).join('');
+            `;
+        }).join('');
 
         modal.style.display = 'flex';
 

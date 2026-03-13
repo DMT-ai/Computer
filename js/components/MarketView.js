@@ -37,6 +37,19 @@ export class MarketView {
             <div class="product-grid" id="product-grid">
                <!-- Products will be mapped here -->
             </div>
+
+            <!-- Detail Modal -->
+            <div id="market-detail-modal" class="modal-overlay" style="display: none;">
+                <div class="modal-content glass-panel" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <h3 id="md-title">Chi tiết sản phẩm</h3>
+                        <button class="btn-close" id="md-close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-body" id="md-body">
+                        <!-- Details injected here -->
+                    </div>
+                </div>
+            </div>
         `;
 
         this.attachEventListeners();
@@ -72,12 +85,13 @@ export class MarketView {
             }
 
             return `
-                <div class="product-card glass-panel fade-in">
+                <div class="product-card glass-panel fade-in" data-id="${prod.id}" style="cursor: pointer;" title="Nhấn để xem chi tiết">
                     <div class="product-icon">
                         <i class="fa-solid ${prod.img || 'fa-box'}"></i>
                     </div>
                     <div class="product-info">
                         <h3>${prod.name}</h3>
+                        ${prod.brand ? `<span class="tag brand-tag" style="background: rgba(0, 240, 255, 0.2); color: var(--accent-primary);"><i class="fa-solid fa-tag"></i> Hãng: ${prod.brand}</span>` : ''}
                         ${prod.socket ? `<span class="tag">Socket: ${prod.socket}</span>` : ''}
                         ${prod.type ? `<span class="tag">${prod.type}</span>` : ''}
                         ${prod.wattage ? `<span class="tag">${prod.wattage}W</span>` : ''}
@@ -114,5 +128,55 @@ export class MarketView {
                 // View will auto-update via PubSub
             });
         }
+
+        // Product Details Modal
+        const modal = this.container.querySelector('#market-detail-modal');
+        const modalBody = this.container.querySelector('#md-body');
+        const closeBtn = this.container.querySelector('#md-close');
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        }
+
+        this.container.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const id = card.getAttribute('data-id');
+                const products = dataStore.getAll(this.activeCategory);
+                const prod = products.find(p => p.id === id);
+                
+                if (prod) {
+                    let specsHtml = '';
+                    if (prod.specs && prod.specs.length > 0) {
+                        specsHtml = `
+                            <div class="mt-3">
+                                <h5>Thông số kỹ thuật:</h5>
+                                <ul style="padding-left: 20px; color: #a0a0b0;">
+                                    ${prod.specs.map(s => `<li>${s}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                    }
+                    
+                    modalBody.innerHTML = `
+                        <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
+                            <div style="font-size: 3rem; color: var(--accent-primary);">
+                                <i class="fa-solid ${prod.img || 'fa-box'}"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.3rem;">${prod.name}</h4>
+                                <span class="text-muted">Thương hiệu: ${prod.brand || 'Khác'}</span>
+                            </div>
+                        </div>
+                        <div class="highlight" style="font-size: 1.5rem; margin-bottom: 15px;">
+                            Giá: ${formatVND(prod.currentPrice)}
+                        </div>
+                        ${specsHtml}
+                    `;
+                    modal.style.display = 'flex';
+                }
+            });
+        });
     }
 }
